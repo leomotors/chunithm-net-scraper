@@ -4,6 +4,8 @@ import { Sql } from "postgres";
 
 import { parseMusic } from "../parser/music";
 
+const allDifficulties = ["basic", "advanced", "expert", "master", "ultima"];
+
 async function scrapeMusic(
   sql: Sql,
   jobId: number,
@@ -21,7 +23,7 @@ async function scrapeMusic(
       job_id: jobId,
       title: parsed.musicTitle,
       score: parsed.score,
-      difficulty: parsed.difficulty,
+      difficulty: allDifficulties[parsed.difficulty],
       rating_type: ratingType,
       rank: index + 1,
     };
