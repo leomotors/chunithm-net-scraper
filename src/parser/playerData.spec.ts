@@ -12,7 +12,7 @@ import {
   parsePlayCount,
   parseRatingImage,
   parseTotalCurrency,
-} from "./playerData";
+} from "./playerData.js";
 
 test("Image Rating parser", () => {
   const jobs: [string, number][] = [

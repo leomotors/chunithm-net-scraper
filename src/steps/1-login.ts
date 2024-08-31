@@ -1,6 +1,6 @@
 import { Page } from "playwright";
 
-import { environment } from "../environment";
+import { environment } from "../environment.js";
 
 export async function login(page: Page) {
   await page.goto(

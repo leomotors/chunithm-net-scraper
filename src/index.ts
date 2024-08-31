@@ -4,6 +4,7 @@ import postgres from "postgres";
 import { environment } from "./environment.js";
 import { login } from "./steps/1-login.js";
 import { playerData } from "./steps/2-playerdata.js";
+import { music } from "./steps/3-music.js";
 
 const sql = postgres(environment.DATABASE_URL);
 
@@ -17,19 +18,16 @@ const browser = await chromium.launch({
 
 const page = await browser.newPage();
 
+// * Step 1: Login
 await login(page);
 await page.getByRole("link", { name: "PLAYER DATA" }).click();
 await page.waitForURL("https://chunithm-net-eng.com/mobile/home/playerData");
 
+// * Step 2: Player Data
 await playerData(page, sql, jobId);
 
-await page.getByRole("link", { name: "MUSIC FOR RATING" }).click();
-await page.waitForURL(
-  "https://chunithm-net-eng.com/mobile/home/playerData/ratingDetailBest/",
-);
-
-await page.getByRole("link", { name: "Recent" }).click();
-await page.getByRole("link", { name: "Selection" }).click();
+// * Step 3: Music for Rating
+await music(page, sql, jobId);
 
 await sql.end();
 await browser.close();
