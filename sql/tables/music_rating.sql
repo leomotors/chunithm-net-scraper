@@ -6,7 +6,10 @@ CREATE TABLE music_rating
     score       INTEGER              NOT NULL,
     difficulty  std_chart_difficulty NOT NULL,
     rating_type rating_type          NOT NULL,
-    rank        INTEGER              NOT NULL
+    music_order INTEGER              NOT NULL,
+    level       DECIMAL              NOT NULL,
+    rank        play_result_rank     NOT NULL,
+    rating      DECIMAL              NOT NULL
 );
 
 GRANT USAGE ON SEQUENCE music_rating_id_seq TO localuser;

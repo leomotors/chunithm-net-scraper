@@ -2,15 +2,27 @@ import { JSDOM } from "jsdom";
 import { Page } from "playwright";
 import { Sql } from "postgres";
 
-import { parseMusic } from "../parser/music";
+import {
+  calculateRank,
+  calculateRating,
+  getInternalLevel,
+} from "../data/findRating.js";
+import { parseMusic } from "../parser/music.js";
+import { RatingType, StdChartDifficulty } from "../types.js";
 
-const allDifficulties = ["basic", "advanced", "expert", "master", "ultima"];
+const allDifficulties = [
+  "basic",
+  "advanced",
+  "expert",
+  "master",
+  "ultima",
+] satisfies StdChartDifficulty[];
 
 async function scrapeMusic(
   sql: Sql,
   jobId: number,
   dom: JSDOM,
-  ratingType: string,
+  ratingType: RatingType,
 ) {
   const musicBoxes = [
     ...dom.window.document.querySelectorAll("form > .musiclist_box"),
@@ -19,17 +31,29 @@ async function scrapeMusic(
   const musicData = musicBoxes.map((musicBox, index) => {
     const parsed = parseMusic(musicBox);
 
+    const level = getInternalLevel(
+      parsed.musicTitle,
+      allDifficulties[parsed.difficulty],
+    );
+
+    const rank = calculateRank(parsed.score);
+
+    const rating = calculateRating(parsed.score, level);
+
     return {
       job_id: jobId,
       title: parsed.musicTitle,
       score: parsed.score,
       difficulty: allDifficulties[parsed.difficulty],
       rating_type: ratingType,
-      rank: index + 1,
+      music_order: index + 1,
+      level,
+      rank,
+      rating,
     };
   });
 
-  await sql`INSERT INTO music_rating ${sql(musicData, "job_id", "title", "score", "difficulty", "rating_type", "rank")}`;
+  await sql`INSERT INTO music_rating ${sql(musicData, "job_id", "title", "score", "difficulty", "rating_type", "music_order", "level", "rank", "rating")}`;
 }
 
 export async function music(page: Page, sql: Sql, jobId: number) {

@@ -1,7 +1,7 @@
 import { JSDOM } from "jsdom";
 import { expect, test } from "vitest";
 
-import { parseMusic } from "./music";
+import { parseMusic } from "./music.js";
 
 const m1 = `
 <div class="w388 musiclist_box bg_master">
