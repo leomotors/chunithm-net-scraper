@@ -19,7 +19,7 @@ jobs:
         with:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           title: "CHUNITHM-NET Scraper"
-          tag: ${{ github.ref }}
+          tag: ${{ github.ref_name }}
 
   image:
     name: Docker Image
