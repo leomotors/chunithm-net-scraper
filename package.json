@@ -5,25 +5,32 @@
   "scripts": {
     "start": "bun run src/index.ts",
     "lint": "eslint",
-    "format": "eslint --fix"
+    "format": "eslint --fix",
+    "test": "vitest run"
   },
   "type": "module",
   "license": "MIT",
   "packageManager": "pnpm@9.9.0",
   "dependencies": {
-    "playwright": "^1.46.1"
+    "jsdom": "^25.0.0",
+    "playwright": "^1.46.1",
+    "postgres": "^3.4.4",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.1",
     "@ianvs/prettier-plugin-sort-imports": "^4.3.1",
     "@types/eslint": "^9.6.1",
     "@types/eslint__js": "^8.42.3",
+    "@types/jsdom": "^21.1.7",
     "@types/node": "^20",
+    "@vitest/coverage-v8": "^2.0.5",
     "eslint": "^9.9.1",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
     "prettier": "^3.3.3",
     "typescript": "^5.5.4",
-    "typescript-eslint": "^8.3.0"
+    "typescript-eslint": "^8.3.0",
+    "vitest": "^2.0.5"
   }
 }
