@@ -1,4 +1,5 @@
 /* eslint-disable no-irregular-whitespace */
+
 /*
 <div class="player_data_right">
   <div class="player_team_emblem_normal"></div>
@@ -38,7 +39,22 @@
     <div class="player_lastplaydate_text">2024/08/30 17:58</div>
   </div>
 </div>
- */
+...
+<div class="w420 box01">
+  <div class="user_data_friend_code">
+    <div class="user_data_text user_data_friend_tap"><span class="font_90">Show Friend Code</span><span style="display:none;">9002571235855</span></div>
+  </div>
+  <div class="user_data_point">
+    <div class="user_data_text">322,000</div>
+  </div>
+  <div class="user_data_total_point">
+    <div class="user_data_text">322,000</div>
+  </div>
+  <div class="user_data_play_count">
+    <div class="user_data_text">300</div>
+  </div>
+</div>
+*/
 
 import { JSDOM } from "jsdom";
 
@@ -101,4 +117,27 @@ export function parseLastPlayed(dom: JSDOM) {
   )!.textContent!;
 
   return new Date(`${content} UTC+9`);
+}
+
+export function parseCurrentCurrency(dom: JSDOM) {
+  const currency =
+    dom.window.document.querySelector(".user_data_point")!.textContent!;
+
+  return parseInt(currency.replace(/,/g, ""));
+}
+
+export function parseTotalCurrency(dom: JSDOM) {
+  const currency = dom.window.document.querySelector(
+    ".user_data_total_point",
+  )!.textContent!;
+
+  return parseInt(currency.replace(/,/g, ""));
+}
+
+export function parsePlayCount(dom: JSDOM) {
+  const playCount = dom.window.document.querySelector(
+    ".user_data_play_count",
+  )!.textContent!;
+
+  return parseInt(playCount);
 }

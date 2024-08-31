@@ -7,7 +7,11 @@ CREATE TABLE player_data
     overpower_value   DECIMAL   NOT NULL,
     overpower_percent DECIMAL   NOT NULL,
     last_played       TIMESTAMP NOT NULL,
-    data_html_raw     TEXT      NOT NULL
+    current_currency  INTEGER   NOT NULL,
+    total_currency    INTEGER   NOT NULL,
+    play_count        INTEGER   NOT NULL,
+    right_html_raw    TEXT      NOT NULL,
+    bottom_html_raw   TEXT      NOT NULL
 );
 
 GRANT USAGE ON SEQUENCE player_data_id_seq TO localuser;

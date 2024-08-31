@@ -4,11 +4,14 @@ import { expect, test } from "vitest";
 
 import {
   getRatingImages,
+  parseCurrentCurrency,
   parseCurrentRating,
   parseLastPlayed,
   parseMaxRating,
   parseOverpower,
+  parsePlayCount,
   parseRatingImage,
+  parseTotalCurrency,
 } from "./playerData";
 
 test("Image Rating parser", () => {
@@ -56,7 +59,7 @@ test("Image Rating parser", () => {
   });
 });
 
-const playerRatingDiv = `
+const playerDataRightDiv = `
 <div class="player_data_right">
   <div class="player_team_emblem_normal"></div>
     <div class="player_team_data">
@@ -96,7 +99,24 @@ const playerRatingDiv = `
   </div>
 </div>`;
 
-const dom = new JSDOM(playerRatingDiv);
+const playerDataBottomDiv = `
+<div class="w420 box01">
+  <div class="user_data_friend_code">
+    <div class="user_data_text user_data_friend_tap"><span class="font_90">Show Friend Code</span><span style="display:none;">9002571235855</span></div>
+  </div>
+  <div class="user_data_point">
+    <div class="user_data_text">322,000</div>
+  </div>
+  <div class="user_data_total_point">
+    <div class="user_data_text">323,000</div>
+  </div>
+  <div class="user_data_play_count">
+    <div class="user_data_text">300</div>
+  </div>
+</div>`;
+
+const dom = new JSDOM(playerDataRightDiv);
+const bottomDom = new JSDOM(playerDataBottomDiv);
 
 test("DOM Rating Image Parser", () => {
   const ratings = getRatingImages(dom);
@@ -123,4 +143,13 @@ test("DOM Overpower Parser", () => {
 
 test("DOM Last Played Parser", () => {
   expect(parseLastPlayed(dom)).toEqual(new Date("2024-08-30T08:58:00Z"));
+});
+
+test("DOM Currency Parser", () => {
+  expect(parseCurrentCurrency(bottomDom)).toBe(322000);
+  expect(parseTotalCurrency(bottomDom)).toBe(323000);
+});
+
+test("DOM Play Count Parser", () => {
+  expect(parsePlayCount(bottomDom)).toBe(300);
 });
