@@ -1,6 +1,6 @@
 {
-  "name": "chunithm-scraper",
-  "version": "0.0.0",
+  "name": "chunithm-net-scraper",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "start": "bun src/index.ts",
