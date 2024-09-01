@@ -15,3 +15,11 @@ CREATE TABLE player_data
 );
 
 GRANT USAGE ON SEQUENCE player_data_id_seq TO localuser;
+
+-- Migration 1.1.0
+
+ALTER TABLE player_data
+    ADD COLUMN player_level INTEGER DEFAULT 1,
+    ADD COLUMN player_name  TEXT    DEFAULT '',
+    ADD COLUMN team_name    TEXT,
+    ADD COLUMN honor_text   TEXT    DEFAULT '';

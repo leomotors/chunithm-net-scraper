@@ -141,3 +141,23 @@ export function parsePlayCount(dom: JSDOM) {
 
   return parseInt(playCount);
 }
+
+export function parsePlayerLevel(dom: JSDOM) {
+  const level = dom.window.document.querySelector(".player_lv")!.textContent!;
+
+  return parseInt(level);
+}
+
+export function parsePlayerName(dom: JSDOM) {
+  return dom.window.document.querySelector(".player_name_in")!.textContent!;
+}
+
+export function parseTeamName(dom: JSDOM) {
+  return (
+    dom.window.document.querySelector(".player_team_name")?.textContent ?? ""
+  );
+}
+
+export function parseHonorText(dom: JSDOM) {
+  return dom.window.document.querySelector(".player_honor_text")!.textContent!;
+}

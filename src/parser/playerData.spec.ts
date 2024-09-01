@@ -6,11 +6,15 @@ import {
   getRatingImages,
   parseCurrentCurrency,
   parseCurrentRating,
+  parseHonorText,
   parseLastPlayed,
   parseMaxRating,
   parseOverpower,
   parsePlayCount,
+  parsePlayerLevel,
+  parsePlayerName,
   parseRatingImage,
+  parseTeamName,
   parseTotalCurrency,
 } from "./playerData.js";
 
@@ -152,4 +156,20 @@ test("DOM Currency Parser", () => {
 
 test("DOM Play Count Parser", () => {
   expect(parsePlayCount(bottomDom)).toBe(300);
+});
+
+test("DOM Player Level", () => {
+  expect(parsePlayerLevel(dom)).toBe(45);
+});
+
+test("DOM Player Name", () => {
+  expect(parsePlayerName(dom)).toBe("Ｌｅｏψｒθφ");
+});
+
+test("DOM Team Name", () => {
+  expect(parseTeamName(dom)).toBe("ＣＰ　ｖｓ　ＣＥＤＴ");
+});
+
+test("DOM Honor Text", () => {
+  expect(parseHonorText(dom)).toBe("携帯恋話");
 });

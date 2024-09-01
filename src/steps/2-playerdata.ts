@@ -5,10 +5,14 @@ import { Sql } from "postgres";
 import {
   parseCurrentCurrency,
   parseCurrentRating,
+  parseHonorText,
   parseLastPlayed,
   parseMaxRating,
   parseOverpower,
   parsePlayCount,
+  parsePlayerLevel,
+  parsePlayerName,
+  parseTeamName,
   parseTotalCurrency,
 } from "../parser/playerData.js";
 
@@ -29,6 +33,11 @@ export async function playerData(page: Page, sql: Sql, jobId: number) {
   const totalCurrency = parseTotalCurrency(bottomDataDom);
   const playCount = parsePlayCount(bottomDataDom);
 
+  const playerLevel = parsePlayerLevel(rightDataDom);
+  const playerName = parsePlayerName(rightDataDom);
+  const teamName = parseTeamName(rightDataDom);
+  const honorText = parseHonorText(rightDataDom);
+
   await sql`INSERT INTO player_data (
     job_id,
     current_rating,
@@ -40,7 +49,11 @@ export async function playerData(page: Page, sql: Sql, jobId: number) {
     total_currency,
     play_count,
     right_html_raw,
-    bottom_html_raw
+    bottom_html_raw,
+    player_level,
+    player_name,
+    team_name,
+    honor_text
   )
   VALUES (
     ${jobId},
@@ -53,6 +66,10 @@ export async function playerData(page: Page, sql: Sql, jobId: number) {
     ${totalCurrency},
     ${playCount},
     ${rightDataHTML},
-    ${bottomDataHTML}
+    ${bottomDataHTML},
+    ${playerLevel},
+    ${playerName},
+    ${teamName},
+    ${honorText}
   )`;
 }
