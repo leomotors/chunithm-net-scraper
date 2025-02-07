@@ -218,10 +218,8 @@ export async function main() {
           if (src.includes("alljustice")) {
             isAllJustice = true;
             isFullCombo = true;
-            break;
           } else if (src.includes("fullcombo")) {
             isFullCombo = true;
-            break;
           }
 
           // Full Chain

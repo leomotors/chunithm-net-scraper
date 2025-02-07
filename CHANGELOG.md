@@ -1,5 +1,10 @@
 # Changelog
 
+## [2.2.0] - 2025-02-07
+
+- chore: deps
+- fix: full chain always being 0 due to if else break
+
 ## [2.1.0] - 2024-12-25
 
 - fix: bug generating best songs image in headless mode
