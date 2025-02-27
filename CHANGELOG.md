@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.2.1] - 2025-02-27
+
+- fix: handle case where chart constant is not found
+
 ## [2.2.0] - 2025-02-07
 
 - chore: deps
