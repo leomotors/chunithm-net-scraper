@@ -36,6 +36,13 @@
       "when": 1740994355705,
       "tag": "0004_nappy_rick_jones",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1741001904782,
+      "tag": "0005_manual-data-rating-table",
+      "breakpoints": true
     }
   ]
 }

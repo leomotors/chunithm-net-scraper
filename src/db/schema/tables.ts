@@ -122,3 +122,9 @@ export const qmanRawTable = pgTable("qman_raw", {
     .references(() => job.id, { onUpdate: "cascade", onDelete: "cascade" }),
   raw: text().notNull().default(""),
 });
+
+export const pastRatingTable = pgTable("past_rating", {
+  id: serial().primaryKey().notNull(),
+  rating: numeric().notNull(),
+  timestamp: timestamp().notNull(),
+});
