@@ -23,7 +23,8 @@ jobs:
 
   image:
     name: Docker Image
-    runs-on: ubuntu-latest
+    # https://github.com/actions/runner-images/issues/11471
+    runs-on: ubuntu-22.04
 
     permissions:
       id-token: write
