@@ -1,0 +1,575 @@
+{
+  "id": "213188fd-156d-41d2-9af6-5cb9d8e862dc",
+  "prevId": "4c5ff100-b541-41ce-b47d-c97aee6e4738",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.chart_constant": {
+      "name": "chart_constant",
+      "schema": "",
+      "columns": {
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "difficulty": {
+          "name": "difficulty",
+          "type": "std_chart_difficulty",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "version": {
+          "name": "version",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "level": {
+          "name": "level",
+          "type": "numeric(3, 1)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "chart_constant_title_difficulty_version_unique": {
+          "name": "chart_constant_title_difficulty_version_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "title",
+            "difficulty",
+            "version"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.chart_score": {
+      "name": "chart_score",
+      "schema": "",
+      "columns": {
+        "job_id": {
+          "name": "job_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "difficulty": {
+          "name": "difficulty",
+          "type": "std_chart_difficulty",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "score": {
+          "name": "score",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "fc": {
+          "name": "fc",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "aj": {
+          "name": "aj",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "CURRENT_TIMESTAMP"
+        },
+        "clear_mark": {
+          "name": "clear_mark",
+          "type": "clear_mark",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'NONE'"
+        },
+        "full_chain": {
+          "name": "full_chain",
+          "type": "numeric(1, 0)",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'0'"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "chart_score_job_id_job_id_fk": {
+          "name": "chart_score_job_id_job_id_fk",
+          "tableFrom": "chart_score",
+          "tableTo": "job",
+          "columnsFrom": [
+            "job_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "chart_score_title_difficulty_score_fc_aj_clear_mark_full_chain_unique": {
+          "name": "chart_score_title_difficulty_score_fc_aj_clear_mark_full_chain_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "title",
+            "difficulty",
+            "score",
+            "fc",
+            "aj",
+            "clear_mark",
+            "full_chain"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.job": {
+      "name": "job",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "timestamp": {
+          "name": "timestamp",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.music_rating": {
+      "name": "music_rating",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "job_id": {
+          "name": "job_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "score": {
+          "name": "score",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "difficulty": {
+          "name": "difficulty",
+          "type": "std_chart_difficulty",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "rating_type": {
+          "name": "rating_type",
+          "type": "rating_type",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "music_order": {
+          "name": "music_order",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "level": {
+          "name": "level",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "rank": {
+          "name": "rank",
+          "type": "play_result_rank",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "rating": {
+          "name": "rating",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "music_rating_job_id_job_id_fk": {
+          "name": "music_rating_job_id_job_id_fk",
+          "tableFrom": "music_rating",
+          "tableTo": "job",
+          "columnsFrom": [
+            "job_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "music_rating_job_id_rating_type_music_order_unique": {
+          "name": "music_rating_job_id_rating_type_music_order_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "job_id",
+            "rating_type",
+            "music_order"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.music_rating_html": {
+      "name": "music_rating_html",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "job_id": {
+          "name": "job_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "best_html": {
+          "name": "best_html",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "recent_html": {
+          "name": "recent_html",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "selection_html": {
+          "name": "selection_html",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "music_rating_html_job_id_job_id_fk": {
+          "name": "music_rating_html_job_id_job_id_fk",
+          "tableFrom": "music_rating_html",
+          "tableTo": "job",
+          "columnsFrom": [
+            "job_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.player_data": {
+      "name": "player_data",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "job_id": {
+          "name": "job_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "current_rating": {
+          "name": "current_rating",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "max_rating": {
+          "name": "max_rating",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "overpower_value": {
+          "name": "overpower_value",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "overpower_percent": {
+          "name": "overpower_percent",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "last_played": {
+          "name": "last_played",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "current_currency": {
+          "name": "current_currency",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "total_currency": {
+          "name": "total_currency",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "play_count": {
+          "name": "play_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "right_html_raw": {
+          "name": "right_html_raw",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "bottom_html_raw": {
+          "name": "bottom_html_raw",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "player_level": {
+          "name": "player_level",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "default": 1
+        },
+        "player_name": {
+          "name": "player_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "''"
+        },
+        "team_name": {
+          "name": "team_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "honor_text": {
+          "name": "honor_text",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "''"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "player_data_job_id_job_id_fk": {
+          "name": "player_data_job_id_job_id_fk",
+          "tableFrom": "player_data",
+          "tableTo": "job",
+          "columnsFrom": [
+            "job_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.qman_raw": {
+      "name": "qman_raw",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "job_id": {
+          "name": "job_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "raw": {
+          "name": "raw",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "qman_raw_job_id_job_id_fk": {
+          "name": "qman_raw_job_id_job_id_fk",
+          "tableFrom": "qman_raw",
+          "tableTo": "job",
+          "columnsFrom": [
+            "job_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {
+    "public.clear_mark": {
+      "name": "clear_mark",
+      "schema": "public",
+      "values": [
+        "NONE",
+        "CLEAR",
+        "HARD",
+        "ABSOLUTE",
+        "ABSOLUTE+",
+        "CATASTROPHY"
+      ]
+    },
+    "public.play_result_rank": {
+      "name": "play_result_rank",
+      "schema": "public",
+      "values": [
+        "D",
+        "C",
+        "B",
+        "BB",
+        "BBB",
+        "A",
+        "AA",
+        "AAA",
+        "S",
+        "S+",
+        "SS",
+        "SS+",
+        "SSS",
+        "SSS+"
+      ]
+    },
+    "public.rating_type": {
+      "name": "rating_type",
+      "schema": "public",
+      "values": [
+        "best",
+        "recent",
+        "selection"
+      ]
+    },
+    "public.std_chart_difficulty": {
+      "name": "std_chart_difficulty",
+      "schema": "public",
+      "values": [
+        "basic",
+        "advanced",
+        "expert",
+        "master",
+        "ultima"
+      ]
+    }
+  },
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

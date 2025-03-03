@@ -1,0 +1,77 @@
+-- Current sql file was generated after introspecting the database
+-- If you want to run this migration please uncomment this code before executing migrations
+-- /*
+-- CREATE TYPE "public"."clear_mark" AS ENUM('CLEAR', 'HARD', 'ABSOLUTE', 'ABSOLUTE+', 'CATASTROPHY', 'NONE');--> statement-breakpoint
+-- CREATE TYPE "public"."play_result_rank" AS ENUM('D', 'C', 'B', 'BB', 'BBB', 'A', 'AA', 'AAA', 'S', 'S+', 'SS', 'SS+', 'SSS', 'SSS+');--> statement-breakpoint
+-- CREATE TYPE "public"."rating_type" AS ENUM('best', 'recent', 'selection');--> statement-breakpoint
+-- CREATE TYPE "public"."std_chart_difficulty" AS ENUM('basic', 'advanced', 'expert', 'master', 'ultima');--> statement-breakpoint
+-- CREATE TABLE "music_rating" (
+-- 	"id" serial PRIMARY KEY NOT NULL,
+-- 	"job_id" integer NOT NULL,
+-- 	"title" text NOT NULL,
+-- 	"score" integer NOT NULL,
+-- 	"difficulty" "std_chart_difficulty" NOT NULL,
+-- 	"rating_type" "rating_type" NOT NULL,
+-- 	"music_order" integer NOT NULL,
+-- 	"level" numeric NOT NULL,
+-- 	"rank" "play_result_rank" NOT NULL,
+-- 	"rating" numeric NOT NULL,
+-- 	CONSTRAINT "unique_music_rating_job_id_and_rating_type_and_music_order" UNIQUE("job_id","rating_type","music_order")
+-- );
+-- --> statement-breakpoint
+-- CREATE TABLE "music_rating_html" (
+-- 	"id" serial PRIMARY KEY NOT NULL,
+-- 	"job_id" integer NOT NULL,
+-- 	"best_html" text NOT NULL,
+-- 	"recent_html" text NOT NULL,
+-- 	"selection_html" text NOT NULL
+-- );
+-- --> statement-breakpoint
+-- CREATE TABLE "job" (
+-- 	"id" serial PRIMARY KEY NOT NULL,
+-- 	"timestamp" timestamp NOT NULL
+-- );
+-- --> statement-breakpoint
+-- CREATE TABLE "player_data" (
+-- 	"id" serial PRIMARY KEY NOT NULL,
+-- 	"job_id" integer NOT NULL,
+-- 	"current_rating" numeric NOT NULL,
+-- 	"max_rating" numeric NOT NULL,
+-- 	"overpower_value" numeric NOT NULL,
+-- 	"overpower_percent" numeric NOT NULL,
+-- 	"last_played" timestamp NOT NULL,
+-- 	"current_currency" integer NOT NULL,
+-- 	"total_currency" integer NOT NULL,
+-- 	"play_count" integer NOT NULL,
+-- 	"right_html_raw" text NOT NULL,
+-- 	"bottom_html_raw" text NOT NULL,
+-- 	"player_level" integer DEFAULT 1,
+-- 	"player_name" text DEFAULT '',
+-- 	"team_name" text,
+-- 	"honor_text" text DEFAULT ''
+-- );
+-- --> statement-breakpoint
+-- CREATE TABLE "chart_constant" (
+-- 	"title" text NOT NULL,
+-- 	"difficulty" "std_chart_difficulty" NOT NULL,
+-- 	"version" text NOT NULL,
+-- 	"level" numeric(3, 1) NOT NULL,
+-- 	CONSTRAINT "chart_constant_title_difficulty_version_key" UNIQUE("title","difficulty","version")
+-- );
+-- --> statement-breakpoint
+-- CREATE TABLE "chart_score" (
+-- 	"job_id" integer NOT NULL,
+-- 	"title" text NOT NULL,
+-- 	"difficulty" "std_chart_difficulty" NOT NULL,
+-- 	"score" integer NOT NULL,
+-- 	"fc" boolean NOT NULL,
+-- 	"aj" boolean NOT NULL,
+-- 	"updated_at" timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
+-- 	"clear_mark" "clear_mark" DEFAULT 'NONE' NOT NULL,
+-- 	"full_chain" numeric(1, 0) DEFAULT '0' NOT NULL,
+-- 	CONSTRAINT "chart_score_title_difficulty_score_fc_aj_key" UNIQUE("title","difficulty","score","fc","aj","clear_mark","full_chain")
+-- );
+-- --> statement-breakpoint
+-- ALTER TABLE "music_rating" ADD CONSTRAINT "fk_music_rating_job_id_job" FOREIGN KEY ("job_id") REFERENCES "public"."job"("id") ON DELETE cascade ON UPDATE cascade;--> statement-breakpoint
+-- ALTER TABLE "player_data" ADD CONSTRAINT "fk_player_data_job_id_job" FOREIGN KEY ("job_id") REFERENCES "public"."job"("id") ON DELETE cascade ON UPDATE cascade;
+-- */

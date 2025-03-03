@@ -1,15 +1,28 @@
-import { Sql } from "postgres";
+import { and, eq } from "drizzle-orm";
 
-import { PlayResultRank, StdChartDifficulty } from "../types.js";
+import {
+  chartConstant,
+  PlayResultRank,
+  StdChartDifficulty,
+} from "../db/schema/index.js";
+import { type dbType } from "../playwright.js";
 
 export async function getInternalLevel(
   songTitle: string,
   difficulty: StdChartDifficulty,
-  sql: Sql,
+  db: dbType,
   version: string,
 ) {
-  const result =
-    await sql`SELECT level FROM chart_constant WHERE title = ${songTitle} AND difficulty = ${difficulty} AND version = ${version}`;
+  const result = await db
+    .select()
+    .from(chartConstant)
+    .where(
+      and(
+        eq(chartConstant.title, songTitle),
+        eq(chartConstant.difficulty, difficulty),
+        eq(chartConstant.version, version),
+      ),
+    );
 
   return +result[0]?.level || 0;
 }

@@ -1,7 +1,7 @@
 import { JSDOM } from "jsdom";
 import { Page } from "playwright";
-import { Sql } from "postgres";
 
+import { playerData } from "../db/schema/tables.js";
 import {
   parseCurrentCurrency,
   parseCurrentRating,
@@ -15,8 +15,9 @@ import {
   parseTeamName,
   parseTotalCurrency,
 } from "../parser/playerData.js";
+import { dbType } from "../playwright.js";
 
-export async function playerData(page: Page, sql: Sql, jobId: number) {
+export async function scrapePlayerData(jobId: number, page: Page, db: dbType) {
   const rightData = page.locator(".player_data_right");
   const rightDataHTML = await rightData.innerHTML();
   const rightDataDom = new JSDOM(rightDataHTML);
@@ -38,40 +39,24 @@ export async function playerData(page: Page, sql: Sql, jobId: number) {
   const teamName = parseTeamName(rightDataDom);
   const honorText = parseHonorText(rightDataDom);
 
-  await sql`INSERT INTO player_data (
-    job_id,
-    current_rating,
-    max_rating,
-    overpower_value,
-    overpower_percent,
-    last_played,
-    current_currency,
-    total_currency,
-    play_count,
-    right_html_raw,
-    bottom_html_raw,
-    player_level,
-    player_name,
-    team_name,
-    honor_text
-  )
-  VALUES (
-    ${jobId},
-    ${currentRating},
-    ${maxRating},
-    ${overpower.value},
-    ${overpower.percent},
-    ${lastPlayed},
-    ${currentCurrency},
-    ${totalCurrency},
-    ${playCount},
-    ${rightDataHTML},
-    ${bottomDataHTML},
-    ${playerLevel},
-    ${playerName},
-    ${teamName},
-    ${honorText}
-  )`;
+  await db.insert(playerData).values({
+    // @ts-expect-error insert on table with default column
+    jobId: jobId,
+    currentRating: currentRating,
+    maxRating: maxRating,
+    overpowerValue: overpower.value,
+    overpowerPercent: overpower.percent,
+    lastPlayed: lastPlayed,
+    currentCurrency: currentCurrency,
+    totalCurrency: totalCurrency,
+    playCount: playCount,
+    rightHtmlRaw: rightDataHTML,
+    bottomHtmlRaw: bottomDataHTML,
+    playerLevel: playerLevel,
+    playerName: playerName,
+    teamName: teamName,
+    honorText: honorText,
+  });
 
   return lastPlayed;
 }

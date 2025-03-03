@@ -1,0 +1,1 @@
+ALTER TABLE "chart_score" ALTER COLUMN "clear_mark" SET DEFAULT 'NONE';

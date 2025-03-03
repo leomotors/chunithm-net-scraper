@@ -1,0 +1,1 @@
+ALTER TABLE "job" ALTER COLUMN "timestamp" SET DEFAULT now();

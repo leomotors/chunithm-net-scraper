@@ -1,4 +1,4 @@
-import { StdChartDifficulty } from "../../types.js";
+import { ClearMark, StdChartDifficulty } from "../../db/schema/types.js";
 
 export type QmanScore = {
   title: string;
@@ -9,7 +9,7 @@ export type QmanScore = {
 };
 
 export type QmanDetailedScore = QmanScore & {
-  clearMark: string;
+  clearMark: ClearMark;
   fullChain: number;
 };
 
