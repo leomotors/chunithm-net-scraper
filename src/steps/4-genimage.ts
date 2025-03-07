@@ -3,7 +3,11 @@ import { Page } from "playwright";
 import { sendImage } from "../utils/discord.js";
 import { base64ImageToBlob } from "../utils/image.js";
 
-export async function genImage(page: Page, qmanResult: string) {
+export async function genImage(
+  page: Page,
+  qmanResult: string,
+  retried: number,
+) {
   await page.goto("https://reiwa.f5.si/newbestimg/chunithm_int/");
   await page.locator("#player_data_file").click();
   await page.locator("#player_data_file").setInputFiles({
@@ -12,9 +16,11 @@ export async function genImage(page: Page, qmanResult: string) {
     buffer: Buffer.from(qmanResult),
   });
 
+  const stepDelay = 1000 + 1000 * retried;
+
   if (!process.env.DEBUG) {
     // Headless
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(stepDelay);
 
     await page
       .locator("#player_data_file")
@@ -23,13 +29,13 @@ export async function genImage(page: Page, qmanResult: string) {
       );
   }
 
-  // Wait 5 Seconds
-  await page.waitForTimeout(500);
+  // Wait 2 Seconds
+  await page.waitForTimeout(stepDelay);
 
   await page.getByRole("button", { name: "Generate" }).click();
 
-  // Wait 5 Seconds
-  await page.waitForTimeout(1000);
+  // Wait 2 Seconds
+  await page.waitForTimeout(stepDelay);
 
   // Source as Base64
   const imgSrc = await page.getAttribute("#result-img", "src");

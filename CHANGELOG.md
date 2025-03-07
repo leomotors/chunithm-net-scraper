@@ -1,5 +1,10 @@
 # Changelog
 
+## [3.1.0] - 2025-03-07
+
+- feat: add retry
+- fix: add delay to prevent failure
+
 ## [3.0.0] - 2025-03-03
 
 - feat!: migrate to drizzle orm

@@ -39,8 +39,10 @@ const qmanResult = await pwPage.runStep("Step 3: Qman", (jobId, page, db) =>
 );
 
 // * Step 4: Generate Image
-await pwPage.runStep("Step 4: Generate Image", (_, page) =>
-  genImage(page, qmanResult),
+await pwPage.runStep(
+  "Step 4: Generate Image",
+  (_, page, __, retried) => genImage(page, qmanResult, retried),
+  3,
 );
 
 await db.$client.end();

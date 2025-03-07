@@ -5,7 +5,12 @@ import { sendImage } from "./utils/discord.js";
 
 export type dbType = typeof dbValue;
 
-export type Step<T> = (jobId: number, page: Page, db: dbType) => Promise<T>;
+export type Step<T> = (
+  jobId: number,
+  page: Page,
+  db: dbType,
+  retried: number,
+) => Promise<T>;
 
 export class PwPage {
   constructor(
@@ -14,25 +19,31 @@ export class PwPage {
     public readonly db: dbType,
   ) {}
 
-  async runStep<T>(stepName: string, step: Step<T>) {
-    try {
-      const stepStart = performance.now();
-      const stepResult = await step(this.jobId, this.page, this.db);
-      const stepEnd = performance.now();
+  async runStep<T>(stepName: string, step: Step<T>, retries = 1) {
+    for (let i = 0; i < retries; i++) {
+      try {
+        return await this._runStep(stepName, step, i);
+      } catch (e) {
+        console.error(e);
 
-      console.log(
-        `${stepName} completed: Took ${Math.round(stepEnd - stepStart)}ms`,
-      );
-
-      return stepResult;
-    } catch (e) {
-      console.error(e);
-
-      const screenshot = await this.page.screenshot();
-      await sendImage(
-        `ALERT :warning:: An error occured at step ${stepName}`,
-        new Blob([screenshot]),
-      );
+        const screenshot = await this.page.screenshot();
+        await sendImage(
+          `ALERT :warning:: An error occured at step ${stepName} (Attempt ${i + 1}/${retries})`,
+          new Blob([screenshot]),
+        );
+      }
     }
+  }
+
+  private async _runStep<T>(stepName: string, step: Step<T>, retried: number) {
+    const stepStart = performance.now();
+    const stepResult = await step(this.jobId, this.page, this.db, retried);
+    const stepEnd = performance.now();
+
+    console.log(
+      `${stepName} completed: Took ${Math.round(stepEnd - stepStart)}ms`,
+    );
+
+    return stepResult;
   }
 }
