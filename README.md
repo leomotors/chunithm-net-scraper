@@ -1,3 +1,5 @@
+This project has been moved to [https://github.com/leomotors/chuumai-tools](https://github.com/leomotors/chuumai-tools)
+
 # Chunithm Scraper
 
 Chunithm NET Scraper and rating analysis
